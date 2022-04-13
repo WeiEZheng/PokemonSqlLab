@@ -1,0 +1,82 @@
+Part 2
+1.)
+SELECT *
+FROM types;
+
+2.)
+SELECT *
+FROM pokemons
+WHERE id = '45';
+
+3.)
+SELECT COUNT(*)
+FROM pokemons;
+
+4.)
+SELECT COUNT(*)
+FROM types;
+
+5.)
+SELECT COUNT(secondary_type)
+FROM pokemons;
+
+Part 3
+1.)
+SELECT p.id, p.name, t.name AS Primary_Type
+FROM pokemons p
+JOIN types t
+ON p.primary_type = t.id;
+
+2.)
+SELECT t.name AS Secondary_Type
+FROM pokemons p
+JOIN types t
+ON p.secondary_type = t.id
+WHERE p.name = 'Rufflet';
+
+3.)
+SELECT p.name
+FROM pokemon_trainer pt
+JOIN pokemons p
+ON pt.pokemon_id = p.id
+WHERE pt.trainerID = '303';
+
+4.)
+select count(*)
+FROM pokemons p
+JOIN types t
+ON p.secondary_type = t.id
+where t.name = 'Poison';
+
+5.)
+SELECT pt.trainerID, COUNT(pt.pokemon_id) AS "Number of level 100 pokemons"
+FROM pokemon_trainer pt
+WHERE pt.pokelevel = '100'
+GROUP BY pt.trainerID;
+
+6.)
+SELECT COUNT(*) AS "Number of pokemon"
+FROM (
+SELECT *
+FROM pokemon_trainer pt
+JOIN pokemons p
+ON pt.pokemon_id = p.id
+GROUP BY pt.pokemon_id HAVING COUNT(trainerID)=1) c;
+
+Part 4
+SELECT
+p.name AS 'Pokemon Name',
+t.trainername AS 'Trainer Name',
+pt.pokelevel as Level,
+p_type.name as 'Primary Type',
+s_type.name as 'Secondary Type'
+FROM types p_type
+JOIN pokemons p
+ON p_type.id = p.primary_type
+JOIN pokemon_trainer pt
+ON pt.pokemon_id = p.id
+JOIN types s_type
+ON s_type.id = p.secondary_type
+JOIN trainers t
+ON pt.trainerID = t.trainerID
+ORDER BY Level desc;
